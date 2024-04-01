@@ -127,29 +127,29 @@ services:
     networks:
       - outline-internal
 # OUTLINE WIKI
- outline:
-    image: outlinewiki/outline:0.75.2
-    container_name: outline
-    restart: unless-stopped
-    # USE THIS TO UPGRADE
-    #command: sh -c "sleep 5 && yarn db:migrate --env=production-ssl-disabled"
-    # USE THIS TO RUN PRODUCTION SERVICE
-    command: yarn start --env=production-ssl-disabled
-    depends_on:
-      - postdb
-      - redis
-    links:
-      - postdb:postdb
-      - redis:redis
-    env_file:
-      - /home/ubuntu/outline/outline.env
-    ports:
-      - "1661:80"
-    volumes:
-      - /home/ubuntu/outline/data:/var/lib/outline/data
-    networks:
-      - outline-internal
-      - public-proxy
+  outline:
+      image: outlinewiki/outline:0.75.2
+      container_name: outline
+      restart: unless-stopped
+      # USE THIS TO UPGRADE
+      #command: sh -c "sleep 5 && yarn db:migrate --env=production-ssl-disabled"
+      # USE THIS TO RUN PRODUCTION SERVICE
+      command: yarn start --env=production-ssl-disabled
+      depends_on:
+        - postdb
+        - redis
+      links:
+        - postdb:postdb
+        - redis:redis
+      env_file:
+        - /home/ubuntu/outline/outline.env
+      ports:
+        - "1661:80"
+      volumes:
+        - /home/ubuntu/outline/data:/var/lib/outline/data
+      networks:
+        - outline-internal
+        - public-proxy
 
 # GHOST STACK
 #
