@@ -2,19 +2,19 @@ version: '3.8'
 services:
 
   # NGINX PROXY
-  nginx:
-    image: jc21/nginx-proxy-manager:latest
-    restart: unless-stopped
-    container_name: nginx
-    ports:
-      - "80:80"
-      - "443:443"
-      - "81:81"
-    volumes:
-      - /home/ubuntu/nginx/data:/data
-      - /home/ubuntu/nginx/letsencrypt:/letsencrypt
-    networks:
-      - public-proxy # PUBLIC SERVICES MUST CONNECT TO THIS NETWORK
+  # nginx:
+  #   image: jc21/nginx-proxy-manager:latest
+  #   restart: unless-stopped
+  #   container_name: nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #     - "81:81"
+  #   volumes:
+  #     - /home/ubuntu/nginx/data:/data
+  #     - /home/ubuntu/nginx/letsencrypt:/letsencrypt
+  #   networks:
+  #     - public-proxy # PUBLIC SERVICES MUST CONNECT TO THIS NETWORK
 
   node-red:
     image: nodered/node-red:latest-18
@@ -100,25 +100,25 @@ services:
     networks:
       - outline-internal
 # OUTLINE DB BACKUP
-  postdb_backup:
-    image: postgres:13
-    depends_on:
-      - postdb
-    volumes:
-      - /home/ubuntu/dbpost_backup:/backup
-    command: >
-      bash -c "while true; do
-        PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h postdb -U $$POSTGRES_USER -Fc $$POSTGRES_DB > /backup/$$(date +%Y-%m-%d-%H-%M-%S).dump
-        echo ""Backup done at $$(date +%Y-%m-%d_%H:%M:%S)""
-        ls -1 /backup/*.dump | head -n -2 | xargs rm -f
-        sleep 86400
-      done"
-    environment:
-      POSTGRES_USER: XXX
-      POSTGRES_PASSWORD: XXX
-      POSTGRES_DB: XXX
-    networks:
-      - outline-internal
+  # postdb_backup:
+  #   image: postgres:13
+  #   depends_on:
+  #     - postdb
+  #   volumes:
+  #     - /home/ubuntu/dbpost_backup:/backup
+  #   command: >
+  #     bash -c "while true; do
+  #       PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h postdb -U $$POSTGRES_USER -Fc $$POSTGRES_DB > /backup/$$(date +%Y-%m-%d-%H-%M-%S).dump
+  #       echo ""Backup done at $$(date +%Y-%m-%d_%H:%M:%S)""
+  #       ls -1 /backup/*.dump | head -n -2 | xargs rm -f
+  #       sleep 86400
+  #     done"
+  #   environment:
+  #     POSTGRES_USER: XXX
+  #     POSTGRES_PASSWORD: XXX
+  #     POSTGRES_DB: XXX
+  #   networks:
+  #     - outline-internal
 # REDIS FOR OUTLINE
   redis:
     image: redis
@@ -141,8 +141,8 @@ services:
       links:
         - postdb:postdb
         - redis:redis
-      env_file:
-        - /home/ubuntu/outline/outline.env
+      # env_file:
+      #   - /home/ubuntu/outline/outline.env
       ports:
         - "1661:80"
       volumes:
